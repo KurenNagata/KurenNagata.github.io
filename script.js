@@ -66,7 +66,7 @@ const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
         ph: rand(0, 6.28),
         sp: rand(.5, 2.4),
         on: (x / W) * 1400 + rand(0, 700),
-        glow: Math.random() < .12
+        glow: Math.random() < .04
       };
     });
   }
@@ -78,7 +78,7 @@ const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     // 星
     for (const s of stars) {
-      ctx.globalAlpha = 0.35 + 0.35 * Math.sin(t * s.sp + s.ph);
+      ctx.globalAlpha = 0.3 + 0.15 * Math.sin(t * s.sp + s.ph);
       ctx.fillStyle = "#DCE9F2";
       ctx.fillRect(s.x, s.y, s.r, s.r);
     }
@@ -87,7 +87,7 @@ const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     // 地平線のにじみ
     const haze = ctx.createLinearGradient(0, horizon - 120, 0, horizon + 10);
     haze.addColorStop(0, "rgba(242,194,48,0)");
-    haze.addColorStop(1, "rgba(242,194,48,.10)");
+    haze.addColorStop(1, "rgba(242,194,48,.05)");
     ctx.fillStyle = haze;
     ctx.fillRect(0, horizon - 120, W, 130);
 
@@ -120,11 +120,11 @@ const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     for (const b of boats) {
       if (!reduce) { b.x += b.v / 60; if (b.x < -20) b.x = W + 20; if (b.x > W + 20) b.x = -20; }
       const fl = 0.85 + 0.15 * Math.sin(t * 3 + b.ph);
-      const g = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, 16);
-      g.addColorStop(0, `rgba(242,194,48,${.55 * fl})`);
+      const g = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, 9);
+      g.addColorStop(0, `rgba(242,194,48,${.35 * fl})`);
       g.addColorStop(1, "rgba(242,194,48,0)");
       ctx.fillStyle = g;
-      ctx.fillRect(b.x - 16, b.y - 16, 32, 32);
+      ctx.fillRect(b.x - 9, b.y - 9, 18, 18);
       ctx.fillStyle = `rgba(255,236,170,${fl})`;
       ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, 6.29); ctx.fill();
       // 水面の映り込み
@@ -145,9 +145,9 @@ const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       if (k <= 0) continue;
       const a = c.a * k * (0.75 + 0.25 * Math.sin(t * c.sp + c.ph));
       if (c.glow) {
-        ctx.globalAlpha = a * .25;
+        ctx.globalAlpha = a * .18;
         ctx.fillStyle = c.c;
-        ctx.beginPath(); ctx.arc(c.x, c.y, c.s * 3.2, 0, 6.29); ctx.fill();
+        ctx.beginPath(); ctx.arc(c.x, c.y, c.s * 2.2, 0, 6.29); ctx.fill();
       }
       ctx.globalAlpha = a;
       ctx.fillStyle = c.c;
@@ -173,43 +173,15 @@ const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   }
   document.addEventListener("visibilitychange", () => { document.hidden ? stop() : play(); });
 
-  // マウスに合わせて光が動く
-  const spot = document.getElementById("spot");
-  if (band && spot && !reduce && matchMedia("(hover:hover)").matches) {
-    band.addEventListener("pointermove", e => {
-      const r = band.getBoundingClientRect();
-      spot.style.setProperty("--mx", (e.clientX - r.left) + "px");
-      spot.style.setProperty("--my", (e.clientY - r.top) + "px");
-    });
-  }
 })();
 
 /* =========================================================
-   読み込み時：GET /kuren を打ち込む → 見出し・コンソールが登場
+   読み込み時：灯りがつき始めてから文字を表示
    ========================================================= */
-const typedEl = document.getElementById("reqTyped");
-function typeRequest(){
-  if (!typedEl || reduce) return;
-  const parts = [["GET", "m-get"], [" /kuren", null]];
-  typedEl.textContent = "";
-  let pi = 0, ci = 0, span = null;
-  (function tick(){
-    if (pi >= parts.length) return;
-    const [text, cls] = parts[pi];
-    if (ci === 0) { span = document.createElement("span"); if (cls) span.className = cls; typedEl.appendChild(span); }
-    span.textContent += text[ci++];
-    if (ci >= text.length) { pi++; ci = 0; }
-    setTimeout(tick, 70 + Math.random() * 60);
-  })();
-}
-if (typedEl && !reduce) typedEl.textContent = "";
-requestAnimationFrame(() => requestAnimationFrame(() => {
-  document.body.classList.add("ready");
-  setTimeout(typeRequest, 350);
-}));
+requestAnimationFrame(() => requestAnimationFrame(() => document.body.classList.add("ready")));
 
 /* =========================================================
-   API コンソール
+   API の応答画面：タブを押すと、その応答を表示する
    ========================================================= */
 const responses = {
   profile: {
@@ -254,7 +226,6 @@ function tokenize(obj){
 }
 
 const body = document.getElementById("consoleBody");
-const msEl = document.getElementById("ms");
 const tabs = [...document.querySelectorAll(".req")];
 let timers = [];
 
@@ -266,23 +237,23 @@ function renderAll(tokens){
   });
 }
 
+// 押したときだけ、応答が届くように1文字ずつ表示する
 function stream(key){
   timers.forEach(clearTimeout); timers = [];
   const tokens = tokenize(responses[key]);
-  if (msEl) msEl.textContent = (8 + Math.floor(Math.random() * 18)) + "ms";
   if (reduce) { renderAll(tokens); return; }
   body.textContent = "";
   const caret = document.createElement("span"); caret.className = "caret";
   body.appendChild(caret);
   let ti = 0, ci = 0, span = null;
   (function tick(){
-    if (ti >= tokens.length) return;
+    if (ti >= tokens.length) { caret.remove(); return; }
     const [text, cls] = tokens[ti];
     if (ci === 0) { span = cls ? document.createElement("span") : null; if (span) { span.className = cls; body.insertBefore(span, caret); } }
     const ch = text[ci++];
     if (span) span.textContent += ch; else body.insertBefore(document.createTextNode(ch), caret);
     if (ci >= text.length) { ti++; ci = 0; }
-    timers.push(setTimeout(tick, ch === "\n" ? 70 : 10 + Math.random() * 22));
+    timers.push(setTimeout(tick, ch === "\n" ? 40 : 6 + Math.random() * 12));
   })();
 }
 
@@ -300,50 +271,18 @@ tabs.forEach((tab, i) => {
 });
 if (body && tabs.length) {
   tabs.forEach((t, i) => t.tabIndex = i === 0 ? 0 : -1);
-  setTimeout(() => stream("profile"), reduce ? 0 : 1700);
+  renderAll(tokenize(responses.profile)); // 最初は打ち込まずにそのまま表示
 }
 
 /* =========================================================
-   流れる技術名：途切れないように中身を2倍にする
+   ヘッダー：夜景の上かどうか、今どのセクションか
    ========================================================= */
-const track = document.getElementById("tickerTrack");
-if (track && !reduce) track.innerHTML += track.innerHTML;
-
-/* =========================================================
-   スクロール：登場アニメーション・見出しの打ち込み・現在地
-   ========================================================= */
-function typePath(el){
-  const full = el.dataset.type;
-  if (!full || reduce) return;
-  el.textContent = "";
-  let i = 0;
-  (function tick(){ el.textContent = full.slice(0, ++i); if (i < full.length) setTimeout(tick, 55); })();
-}
-
-const rvItems = document.querySelectorAll(".rv");
-if ("IntersectionObserver" in window && !reduce) {
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(en => {
-      if (!en.isIntersecting) return;
-      en.target.classList.add("in");
-      const p = en.target.querySelector(".path[data-type]");
-      if (p) typePath(p);
-      io.unobserve(en.target);
-    });
-  }, { threshold: .15, rootMargin: "0px 0px -40px 0px" });
-  rvItems.forEach(el => io.observe(el));
-} else {
-  rvItems.forEach(el => el.classList.add("in"));
-}
-
 const head = document.getElementById("siteHead");
 const band = document.querySelector(".hero-band");
 const navLinks = [...document.querySelectorAll(".routes a")];
-const bar = document.getElementById("progressBar");
-
 if ("IntersectionObserver" in window) {
   if (head && band) {
-    new IntersectionObserver(([e]) => head.classList.toggle("over", e.isIntersecting), { rootMargin: "-64px 0px 0px 0px", threshold: 0 })
+    new IntersectionObserver(([e]) => head.classList.toggle("over", e.isIntersecting), { rootMargin: "-60px 0px 0px 0px" })
       .observe(band);
   }
   const spy = new IntersectionObserver(entries => {
@@ -353,17 +292,6 @@ if ("IntersectionObserver" in window) {
   }, { rootMargin: "-40% 0px -55% 0px" });
   document.querySelectorAll(".sec[id]").forEach(s => spy.observe(s));
 }
-
-let ticking = false;
-window.addEventListener("scroll", () => {
-  if (ticking) return;
-  ticking = true;
-  requestAnimationFrame(() => {
-    const max = document.documentElement.scrollHeight - innerHeight;
-    if (bar) bar.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
-    ticking = false;
-  });
-}, { passive: true });
 
 /* =========================================================
    #works/xxx で該当の制作物を開く
