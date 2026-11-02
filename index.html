@@ -7,12 +7,6 @@
 <meta name="description" content="公立はこだて未来大学 情報アーキテクチャ学科 3年 永田來煉のポートフォリオ。Goでのバックエンド開発、チーム開発のリーダー経験、個人開発の制作物を紹介しています。">
 <script>
   document.documentElement.classList.add('js');
-  (function(){
-    try{
-      var t = localStorage.getItem('theme');
-      if(t) document.documentElement.setAttribute('data-theme', t);
-    }catch(e){}
-  })();
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -33,9 +27,6 @@
       <a href="#activity">/activity</a>
       <a href="#contact">/contact</a>
     </nav>
-    <button class="theme" id="themeToggle" type="button" aria-label="ライトとダークを切り替え">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></svg>
-    </button>
   </div>
 </header>
 
@@ -269,6 +260,9 @@
     </article>
   </section>
 
+</main>
+
+<div class="band-night">
   <!-- ===== CONTACT ===== -->
   <section class="sec wrap" id="contact">
     <div class="sec-head rv">
@@ -286,11 +280,10 @@
     </div>
   </section>
 
-</main>
-
-<footer class="site-foot wrap">
-  <p>&copy; 2026 永田 來煉</p>
-</footer>
+  <footer class="site-foot wrap">
+    <p>&copy; 2026 永田 來煉</p>
+  </footer>
+</div>
 
 <script src="script.js"></script>
 </body>

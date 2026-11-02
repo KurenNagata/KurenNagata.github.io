@@ -97,7 +97,7 @@ const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     for (const p of mountain) ctx.lineTo(p[0], p[1]);
     ctx.lineTo(mountain[mountain.length - 1][0], horizon);
     ctx.closePath();
-    ctx.fillStyle = "#040B13";
+    ctx.fillStyle = "#040930";
     ctx.fill();
     ctx.strokeStyle = "rgba(157,180,194,.18)";
     ctx.lineWidth = 1;
@@ -111,8 +111,8 @@ const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     // 海
     const sea = ctx.createLinearGradient(0, horizon, 0, shore);
-    sea.addColorStop(0, "#0A2236");
-    sea.addColorStop(1, "#061524");
+    sea.addColorStop(0, "#123463");
+    sea.addColorStop(1, "#081C3C");
     ctx.fillStyle = sea;
     ctx.fillRect(0, horizon, W, shore - horizon);
 
@@ -134,8 +134,8 @@ const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     // 陸
     const land = ctx.createLinearGradient(0, shore, 0, H);
-    land.addColorStop(0, "#050E18");
-    land.addColorStop(1, "#02070D");
+    land.addColorStop(0, "#050B2C");
+    land.addColorStop(1, "#02031C");
     ctx.fillStyle = land;
     ctx.fillRect(0, shore, W, H - shore);
 
@@ -351,7 +351,7 @@ if ("IntersectionObserver" in window) {
       if (en.isIntersecting) navLinks.forEach(a => a.classList.toggle("on", a.getAttribute("href") === "#" + en.target.id));
     });
   }, { rootMargin: "-40% 0px -55% 0px" });
-  document.querySelectorAll("main .sec[id]").forEach(s => spy.observe(s));
+  document.querySelectorAll(".sec[id]").forEach(s => spy.observe(s));
 }
 
 let ticking = false;
@@ -391,20 +391,5 @@ if (copyBtn) {
     } catch (e) {
       copyBtn.textContent = "コピーできませんでした";
     }
-  });
-}
-
-/* =========================================================
-   テーマ切り替え
-   ========================================================= */
-const themeToggle = document.getElementById("themeToggle");
-if (themeToggle) {
-  themeToggle.addEventListener("click", () => {
-    const root = document.documentElement;
-    const current = root.getAttribute("data-theme") ||
-      (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-    const next = current === "dark" ? "light" : "dark";
-    root.setAttribute("data-theme", next);
-    try { localStorage.setItem("theme", next); } catch (e) {}
   });
 }
