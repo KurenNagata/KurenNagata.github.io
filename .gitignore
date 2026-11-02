@@ -1,0 +1,7 @@
+# 公開しないファイル
+CLAUDE.md
+.claude/
+.vscode/
+image.jpg
+memo.txt
+old/
