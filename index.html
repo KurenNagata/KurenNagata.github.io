@@ -4,242 +4,301 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>永田 來煉 | ポートフォリオ</title>
-<meta name="description" content="公立はこだて未来大学 情報アーキテクチャ学科 3年 永田來煉のポートフォリオ。Goでのバックエンド開発、チーム開発のリーダー経験、個人開発の制作物を紹介しています。">
+<meta name="description" content="公立はこだて未来大学 情報アーキテクチャ学科 3年 永田來煉のポートフォリオ。Go でのバックエンド開発の学習、チーム開発のリーダー経験、個人開発の制作物を紹介しています。">
 <script>document.documentElement.classList.add('js');</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<a class="skip" href="#works">本文へ移動</a>
-
-<header class="site-head over" id="siteHead">
-  <div class="wrap head-row">
-    <a class="brand" href="#top">永田 來煉</a>
-    <nav class="routes" aria-label="ページ内リンク">
-      <a href="#works">制作物</a>
-      <a href="#skills">技術</a>
-      <a href="#activity">受賞</a>
-      <a href="#contact">連絡先</a>
+<header class="gnav">
+  <div class="gnav-in">
+    <a class="brand" href="#home">永田 來煉</a>
+    <nav aria-label="タブ">
+      <a href="#home" data-tab="home">ホーム</a>
+      <a href="#works" data-tab="works">制作物</a>
+      <a href="#skills" data-tab="skills">技術</a>
+      <a href="#history" data-tab="history">経歴</a>
+      <a href="#contact" data-tab="contact">連絡先</a>
     </nav>
   </div>
 </header>
 
-<!-- ===== トップ：函館の夜景 ===== -->
-<section class="hero-band" id="top">
-  <canvas id="harbor" aria-hidden="true"></canvas>
-
-  <div class="hero wrap">
-    <div class="hero-text intro">
-      <h1>永田 來煉</h1>
-      <p class="reading">Nagata Kuren</p>
-      <p class="lede">公立はこだて未来大学 情報アーキテクチャ学科（高度ICTコース）の3年生です。Go を使ったバックエンド開発を中心に学んでいます。チーム開発では12人のチームのリーダーを務め、個人では自分の困りごとを解決するツールを作って、サーバーで動かしています。</p>
-      <div class="cta">
-        <a class="btn lamp" href="#works">制作物を見る</a>
-        <a class="btn ghost" href="https://github.com/KurenNagata" target="_blank" rel="noopener">GitHub</a>
-      </div>
-    </div>
-
-    <div class="console intro" aria-label="プロフィールをAPIの応答の形で表示">
-      <div class="console-bar" role="tablist" aria-label="表示するリクエスト">
-        <button class="req" role="tab" aria-selected="true" data-req="profile"><b>GET</b> /kuren</button>
-        <button class="req" role="tab" aria-selected="false" data-req="now"><b>GET</b> /kuren/now</button>
-        <button class="req" role="tab" aria-selected="false" data-req="stack"><b>GET</b> /kuren/stack</button>
-      </div>
-      <p class="console-status">200 OK</p>
-      <pre class="console-body" id="consoleBody" aria-live="polite"></pre>
-    </div>
-  </div>
-</section>
-
 <main>
 
-  <!-- ===== 制作物 ===== -->
-  <section class="sec wrap" id="works">
-    <h2>制作物</h2>
-    <p class="sec-lead">右端は進み具合です。HTTP のステータスコードになぞらえて、公開・稼働中を 200、開発中を 102、立ち上げ中を 201 で表しています。</p>
+<!-- ================= ホーム ================= -->
+<div class="tab" id="tab-home" data-tab="home">
 
-    <ul class="endpoints">
+  <section class="hero">
+    <p class="eyebrow rv">公立はこだて未来大学 3年</p>
+    <h1 class="rv" style="--d:.08s">永田 來煉</h1>
+    <p class="hero-lead rv" style="--d:.16s">Go でバックエンドを学び、<br>チームをまとめ、自分のためのツールを作っています。</p>
+    <div class="hero-cta rv" style="--d:.24s">
+      <a class="pill" href="#works">制作物を見る</a>
+      <a class="more" href="https://github.com/KurenNagata" target="_blank" rel="noopener">GitHub を見る</a>
+    </div>
+  </section>
 
-      <li class="ep">
-        <details>
+  <section class="band gray">
+    <div class="in">
+      <h2 class="h-sec rv">取り組んでいること</h2>
+      <div class="tiles">
+
+        <article class="tile wide rv">
+          <span class="app-icon orange" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg></span>
+          <p class="tile-kicker k-orange">個人開発・サーバーで稼働中</p>
+          <h3>課題の締切を、<br>Discord に知らせる Bot。</h3>
+          <p class="tile-text">大学の学習管理システムから未提出の課題を取り出し、朝と夜に通知します。Claude（AI）を用いて開発しました。</p>
+          <a class="more" href="#works/hope">詳しく見る</a>
+        </article>
+
+        <article class="tile dark rv" style="--d:.1s">
+          <span class="app-icon blue" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/></svg></span>
+          <p class="tile-kicker k-blue-dark">個人開発・公開中</p>
+          <h3>LearnCode</h3>
+          <p class="tile-text">ブラウザで書いて、実行して、自動で採点されるプログラミング学習アプリ。Claude（AI）を用いて開発しました。</p>
+          <a class="more on-dark" href="#works/learncode">詳しく見る</a>
+        </article>
+
+        <article class="tile rv">
+          <span class="app-icon green" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg></span>
+          <p class="tile-kicker k-green">高度ICT演習・立ち上げ中</p>
+          <h3>FUNavi</h3>
+          <p class="tile-text">生協食堂の待ち時間を予測して、空いている時間を選べるようにする。3人で立ち上げています。</p>
+          <a class="more" href="#works/funavi">詳しく見る</a>
+        </article>
+
+        <article class="tile wide rv" style="--d:.1s">
+          <span class="app-icon yellow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg></span>
+          <p class="tile-kicker">2024年 ハッカソン</p>
+          <h3>P2HACKS 2024 で<br>KDDI Agile Development Center 賞。</h3>
+          <p class="tile-text">Dotto のメンバー5人で、お酒の摂取量を管理するアプリ「Callaco」を作りました。</p>
+          <a class="more" href="#history">経歴を見る</a>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="band black center">
+    <p class="eyebrow blue-dark rv">SHABET ・ チーム開発</p>
+    <h2 class="h-big rv" style="--d:.08s">12人のチームを、<br>リーダーとしてまとめる。</h2>
+    <p class="band-text rv" style="--d:.16s">「顔見知りから親友へ」をコンセプトにしたゲームアプリを、大学のプロジェクト学習で開発しています。プロダクトオーナー兼スクラムマスターとして、タスク管理とレビューを担当しています。</p>
+    <div class="facts">
+      <div class="rv" style="--d:.1s"><p class="fact-num">12<span>人</span></p><p class="fact-label">チームの人数</p></div>
+      <div class="rv" style="--d:.2s"><p class="fact-num">2<span>週間</span></p><p class="fact-label">スプリントの長さ</p></div>
+      <div class="rv" style="--d:.3s"><p class="fact-num">12<span>月</span></p><p class="fact-label">ストア公開の予定（2026年）</p></div>
+    </div>
+    <a class="more on-dark rv" href="#works/shabet">SHABET について詳しく</a>
+  </section>
+
+  <section class="band white center">
+    <div class="in">
+      <h2 class="h-sec rv">学んでいる技術</h2>
+      <p class="sub rv" style="--d:.08s">どれもまだ勉強中です。制作物の中で触れてきました。</p>
+      <div class="tech-icons">
+        <div class="rv"><svg class="line-icon" viewBox="0 0 24 24" aria-hidden="true"><rect width="20" height="8" x="2" y="2" rx="2"/><rect width="20" height="8" x="2" y="14" rx="2"/><path d="M6 6h.01"/><path d="M6 18h.01"/></svg><p class="t-name">バックエンド</p><p class="t-sub">Go・TypeSpec</p></div>
+        <div class="rv" style="--d:.08s"><svg class="line-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg><p class="t-name">インフラ</p><p class="t-sub">Docker・Linux</p></div>
+        <div class="rv" style="--d:.16s"><svg class="line-icon" viewBox="0 0 24 24" aria-hidden="true"><rect width="14" height="20" x="5" y="2" rx="2"/><path d="M12 18h.01"/></svg><p class="t-name">アプリ</p><p class="t-sub">Flutter</p></div>
+        <div class="rv" style="--d:.24s"><svg class="line-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><p class="t-name">チーム開発</p><p class="t-sub">スクラム・レビュー</p></div>
+      </div>
+      <a class="more rv" href="#skills">技術の一覧を見る</a>
+    </div>
+  </section>
+
+  <section class="band gray center">
+    <h2 class="h-sec rv">連絡先</h2>
+    <p class="mail-big rv" style="--d:.08s">b1024162@fun.ac.jp</p>
+    <div class="hero-cta rv" style="--d:.16s">
+      <a class="pill" href="mailto:b1024162@fun.ac.jp">メールを送る</a>
+      <a class="more" href="#contact">連絡先を見る</a>
+    </div>
+  </section>
+</div>
+
+<!-- ================= 制作物 ================= -->
+<div class="tab" id="tab-works" data-tab="works" hidden>
+  <section class="band gray page">
+    <div class="narrow">
+      <h1 class="h-page rv">制作物</h1>
+      <p class="page-lead rv" style="--d:.08s">チームで作っているもの、自分のために作ったもの。押すと詳しい説明が開きます。</p>
+
+      <div class="group rv" style="--d:.16s">
+
+        <details id="w-shabet" open>
           <summary>
-            <span class="ep-path">GET /works/shabet</span>
-            <span class="ep-title">SHABET<small>チーム開発・リーダー</small></span>
-            <span class="st s102">102 開発中</span>
+            <span class="app-icon sm purple" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 11h4"/><path d="M8 9v4"/><path d="M15 12h.01"/><path d="M18 10h.01"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"/></svg></span>
+            <span class="row-main"><span class="row-title">SHABET</span><span class="row-sub">ゲームアプリ・12人チームのリーダー</span></span>
+            <span class="row-status">開発中</span>
+            <svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
           </summary>
-          <div class="ep-body">
-            <p class="ep-lead">「顔見知りから親友へ」仲を深めることをコンセプトにしたゲームアプリです。大学のプロジェクト学習「ミライケータイプロジェクト」の中で、12人のチームで開発しています。2026年11月にMVP、12月にストア公開を予定しています。</p>
+          <div class="detail">
+            <p>「顔見知りから親友へ」仲を深めることをコンセプトにしたゲームアプリです。大学のプロジェクト学習「ミライケータイプロジェクト」の中で、12人のチームで開発しています。2026年11月にMVP、12月にストア公開を予定しています。</p>
             <dl class="kv">
-              <div><dt>役割</dt><dd>サービスリーダー、プロダクトオーナー兼スクラムマスター</dd></div>
-              <div><dt>技術</dt><dd>Go、Flutter、TypeSpec / OpenAPI、WebSocket</dd></div>
+              <dt>役割</dt><dd>サービスリーダー、プロダクトオーナー兼スクラムマスター</dd>
+              <dt>技術</dt><dd>Go、Flutter、TypeSpec / OpenAPI、WebSocket</dd>
             </dl>
-            <h3>取り組んだこと</h3>
-            <ul class="dots">
-              <li>チームにスクラムを導入し、1週間単位のスプリントを回しています</li>
+            <ul>
+              <li>チームにスクラムを導入し、2週間単位のスプリントを回しています</li>
               <li>タスクの割り振りと進捗の管理、コードや途中経過のレビューを担当しています</li>
-              <li>API の仕様を TypeSpec で書き、OpenAPI に変換してアプリ側とサーバー側で共有しています</li>
-              <li>api・backend・mobile を1つのリポジトリにまとめ、仕様のずれを防いでいます</li>
+              <li>API の仕様を TypeSpec で書き、アプリ側とサーバー側で共有しています</li>
             </ul>
-            <p class="note">ミライケータイプロジェクト全体では、オープンキャンパス用のポスターやスライドの制作、合同会議での発表も担当しました。</p>
+            <p class="muted">ミライケータイプロジェクト全体では、オープンキャンパス用のポスターやスライドの制作、合同会議での発表も担当しました。</p>
           </div>
         </details>
-      </li>
 
-      <li class="ep">
-        <details>
+        <details id="w-hope">
           <summary>
-            <span class="ep-path">GET /works/hope-notifier</span>
-            <span class="ep-title">HOPE 課題締切通知Bot<small>個人開発</small></span>
-            <span class="st s200">200 稼働中</span>
+            <span class="app-icon sm orange" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg></span>
+            <span class="row-main"><span class="row-title">HOPE 課題締切通知Bot</span><span class="row-sub">課題の締切を Discord に通知・個人開発</span></span>
+            <span class="row-status">稼働中</span>
+            <svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
           </summary>
-          <div class="ep-body">
-            <p class="ep-lead">大学の学習管理システム（HOPE / Moodle）から未提出の課題を取り出し、締切が近いものを Discord に知らせる Bot です。自分の課題の出し忘れを防ぐために作りました。Claude（AI）を用いて開発しています。</p>
+          <div class="detail">
+            <p>大学の学習管理システム（HOPE / Moodle）から未提出の課題を取り出し、締切が近いものを Discord に知らせる Bot です。自分の課題の出し忘れを防ぐために作りました。Claude（AI）を用いて開発しています。</p>
             <dl class="kv">
-              <div><dt>技術</dt><dd>Go、Docker、Linux（Debian）</dd></div>
-              <div><dt>運用</dt><dd>友人から借りたサーバー（1コア・メモリ512MB）で常時稼働</dd></div>
+              <dt>技術</dt><dd>Go、Docker、Linux（Debian）</dd>
+              <dt>運用</dt><dd>友人から借りたサーバー（1コア・メモリ512MB）で常時稼働</dd>
             </dl>
-            <h3>できること</h3>
-            <ul class="dots">
-              <li>朝と夜20時に通知。夜は当日の残りと翌日締切の課題をまとめて送ります</li>
-              <li>Discord で頼んだ時刻に知らせるリマインド機能</li>
-              <li>root ではない専用ユーザーで動かし、権限を必要な分だけに絞っています</li>
-            </ul>
-            <p class="links"><a href="https://github.com/KurenNagata/hope-notifier" target="_blank" rel="noopener">GitHub でコードを見る</a></p>
+            <p><a href="https://github.com/KurenNagata/hope-notifier" target="_blank" rel="noopener">GitHub でコードを見る</a></p>
           </div>
         </details>
-      </li>
 
-      <li class="ep">
-        <details>
+        <details id="w-funavi">
           <summary>
-            <span class="ep-path">GET /works/funavi</span>
-            <span class="ep-title">FUNavi<small>高度ICT演習・立ち上げ</small></span>
-            <span class="st s201">201 立ち上げ中</span>
+            <span class="app-icon sm green" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg></span>
+            <span class="row-main"><span class="row-title">FUNavi</span><span class="row-sub">生協食堂の混雑をやわらげる・3人で立ち上げ</span></span>
+            <span class="row-status">立ち上げ中</span>
+            <svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
           </summary>
-          <div class="ep-body">
-            <p class="ep-lead">大学生協の食堂の混雑をやわらげるための高度ICT演習テーマです。列に並ぶ人数や時間帯のデータを集めて待ち時間を予測し、学生が空いている時間を選べるようにすることを目指しています。来年度からの本格的な開発に向けて、3人で立ち上げています。</p>
+          <div class="detail">
+            <p>大学生協の食堂の混雑をやわらげるための高度ICT演習テーマです。列に並ぶ人数や時間帯のデータを集めて待ち時間を予測し、学生が空いている時間を選べるようにすることを目指しています。</p>
             <dl class="kv">
-              <div><dt>役割</dt><dd>発起メンバー。テーマの企画、大学や生協との調整</dd></div>
-              <div><dt>いま</dt><dd>生協の許可を得て、食堂の列を撮影・分析する準備を進めています</dd></div>
+              <dt>役割</dt><dd>発起メンバー。テーマの企画、大学や生協との調整</dd>
+              <dt>いま</dt><dd>生協の許可を得て、食堂の列を撮影・分析する準備を進めています</dd>
             </dl>
-            <p class="links"><a href="https://fun-funavi.github.io/" target="_blank" rel="noopener">FUNavi のサイト</a></p>
+            <p><a href="https://fun-funavi.github.io/" target="_blank" rel="noopener">FUNavi のサイト</a></p>
           </div>
         </details>
-      </li>
 
-      <li class="ep">
-        <details>
+        <details id="w-learncode">
           <summary>
-            <span class="ep-path">GET /works/learncode</span>
-            <span class="ep-title">LearnCode<small>個人開発</small></span>
-            <span class="st s200">200 公開中</span>
+            <span class="app-icon sm blue" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/></svg></span>
+            <span class="row-main"><span class="row-title">LearnCode</span><span class="row-sub">プログラミング学習 Web アプリ・個人開発</span></span>
+            <span class="row-status">公開中</span>
+            <svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
           </summary>
-          <div class="ep-body">
-            <p class="ep-lead">ブラウザだけで完結するプログラミング学習 Web アプリです。問題を読み、エディタでコードを書き、実行して隠しテストに全部通ればクリア、という流れを軸に、設計から本番公開まで1人で作りました。Claude（AI）を用いて開発しています。</p>
+          <div class="detail">
+            <p>ブラウザだけで完結するプログラミング学習 Web アプリです。問題を読み、エディタでコードを書き、実行して隠しテストに全部通ればクリア、という流れを軸に、設計から本番公開まで1人で作りました。Claude（AI）を用いて開発しています。</p>
             <dl class="kv">
-              <div><dt>技術</dt><dd>React、Monaco Editor、Go、TypeSpec / OpenAPI、PostgreSQL（Neon）、Cloudflare Workers、Cloud Run、Docker</dd></div>
+              <dt>技術</dt><dd>React、Go、TypeSpec / OpenAPI、PostgreSQL、Cloudflare Workers、Cloud Run</dd>
             </dl>
-            <h3>設計で工夫したこと</h3>
-            <ul class="dots">
-              <li>TypeSpec で API を定義し、OpenAPI から Go のコードを自動生成して仕様とコードのずれを防止</li>
-              <li>handler、service、repository の順に一方向に依存させ、interface で分離</li>
-              <li>隠しテストの期待値はサーバーの外に出さず、実行時間と出力の量にも上限を設定</li>
-              <li>クリアで経験値とレベルが上がる仕組み、JWT 認証での進捗保存</li>
-            </ul>
-            <p class="links">
-              <a href="https://learncode.kuren-off.workers.dev/" target="_blank" rel="noopener">アプリを使ってみる</a>
-              <a href="https://github.com/KurenNagata/LearnCode" target="_blank" rel="noopener">GitHub</a>
-            </p>
+            <p class="links"><a href="https://learncode.kuren-off.workers.dev/" target="_blank" rel="noopener">アプリを使ってみる</a><a href="https://github.com/KurenNagata/LearnCode" target="_blank" rel="noopener">GitHub</a></p>
           </div>
         </details>
-      </li>
 
-      <li class="ep">
-        <details>
+        <details id="w-dotto">
           <summary>
-            <span class="ep-path">GET /works/dotto</span>
-            <span class="ep-title">Dotto<small>チーム開発・バックエンド</small></span>
-            <span class="st s200">200 公開中</span>
+            <span class="app-icon sm gray" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14 22v-4a2 2 0 1 0-4 0v4"/><path d="m18 10 3.447 1.724a1 1 0 0 1 .553.894V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-7.382a1 1 0 0 1 .553-.894L6 10"/><path d="M18 5v17"/><path d="m4 6 7.106-3.553a2 2 0 0 1 1.788 0L20 6"/><path d="M6 5v17"/><circle cx="12" cy="9" r="2"/></svg></span>
+            <span class="row-main"><span class="row-title">Dotto</span><span class="row-sub">学内アプリ・バックエンドを担当</span></span>
+            <span class="row-status">公開中</span>
+            <svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
           </summary>
-          <div class="ep-body">
-            <p class="ep-lead">学内アプリ「Dotto」の開発チームで、Go によるバックエンド開発を学びながら一部の実装を担当しました（2024年4月から）。</p>
-            <ul class="dots">
-              <li>YAML での設定管理、役割ごとに層を分ける設計、開発環境の整え方など、チーム開発の土台を学びました</li>
-              <li>科目検索で、検索結果の並び順を調整する実装を担当しました</li>
-              <li>コードレビューの指摘を受けて直す流れを経験しました</li>
-            </ul>
-            <p class="links"><a href="https://fun-dotto.github.io/" target="_blank" rel="noopener">Dotto のサイト</a></p>
+          <div class="detail">
+            <p>学内アプリ「Dotto」の開発チームで、Go によるバックエンド開発を学びながら一部の実装を担当しました（2024年4月から）。科目検索で、検索結果の並び順を調整する実装を担当し、コードレビューの指摘を受けて直す流れを経験しました。</p>
+            <p><a href="https://fun-dotto.github.io/" target="_blank" rel="noopener">Dotto のサイト</a></p>
           </div>
         </details>
-      </li>
 
-    </ul>
+      </div>
+    </div>
   </section>
+</div>
 
-  <!-- ===== 技術 ===== -->
-  <section class="sec wrap" id="skills">
-    <h2>使える技術</h2>
-    <p class="sec-lead">かっこ内は、使った場面です。</p>
-    <dl class="skills">
-      <div>
-        <dt>バックエンド</dt>
-        <dd>Go（チーム・個人）、REST API 設計（個人）、TypeSpec / OpenAPI（チーム・個人）、PostgreSQL（個人）</dd>
-      </div>
-      <div>
-        <dt>サーバー・インフラ</dt>
-        <dd>Linux サーバーの運用（個人）、Docker（個人）、Cloudflare Workers・Cloud Run（個人）、AWS（学習中）</dd>
-      </div>
-      <div>
-        <dt>アプリ・フロント</dt>
-        <dd>Flutter（チーム）、React（個人）</dd>
-      </div>
-      <div>
-        <dt>チーム開発</dt>
-        <dd>スクラム（プロダクトオーナー兼スクラムマスター）、コードレビュー、Git / GitHub、Notion での仕様管理</dd>
-      </div>
-      <div>
-        <dt>書いたことのある言語</dt>
-        <dd>Go、C、Python、Java、TypeScript、Dart</dd>
-      </div>
-    </dl>
-  </section>
+<!-- ================= 技術 ================= -->
+<div class="tab" id="tab-skills" data-tab="skills" hidden>
+  <section class="band gray page">
+    <div class="narrow">
+      <h1 class="h-page rv">技術</h1>
+      <p class="page-lead rv" style="--d:.08s">どれもまだ勉強中です。右側は、その技術に触れた制作物です。</p>
 
-  <!-- ===== 受賞 ===== -->
-  <section class="sec wrap" id="activity">
-    <h2>受賞・イベント</h2>
-    <article class="award">
-      <p class="award-year">2024</p>
-      <div>
-        <h3>P2HACKS 2024 で KDDI Agile Development Center 賞を受賞</h3>
-        <p>公立はこだて未来大学のハッカソンに Dotto のメンバー5人で参加し、お酒の摂取量を管理するアプリ「Callaco」を作りました。</p>
-        <p class="links"><a href="https://p2hacks2024.github.io/" target="_blank" rel="noopener">P2HACKS 2024 公式サイト</a></p>
+      <p class="group-label rv">バックエンド</p>
+      <div class="group rv">
+        <div class="row"><span class="app-icon xs blue" aria-hidden="true"><svg viewBox="0 0 24 24"><rect width="20" height="8" x="2" y="2" rx="2"/><rect width="20" height="8" x="2" y="14" rx="2"/><path d="M6 6h.01"/><path d="M6 18h.01"/></svg></span><span class="row-name">Go</span><span class="row-val">Dotto・HOPE通知Bot</span></div>
+        <div class="row"><span class="app-icon xs blue" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5c0 1.1.9 2 2 2h1"/><path d="M16 21h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1"/></svg></span><span class="row-name">REST API 設計</span><span class="row-val">LearnCode</span></div>
+        <div class="row"><span class="app-icon xs blue" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg></span><span class="row-name">TypeSpec / OpenAPI</span><span class="row-val">SHABET・LearnCode</span></div>
+        <div class="row"><span class="app-icon xs blue" aria-hidden="true"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg></span><span class="row-name">PostgreSQL</span><span class="row-val">LearnCode</span></div>
       </div>
-    </article>
+
+      <p class="group-label rv">サーバー・インフラ</p>
+      <div class="group rv">
+        <div class="row"><span class="app-icon xs gray" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m4 17 6-6-6-6"/><path d="M12 19h8"/></svg></span><span class="row-name">Linux サーバーの運用</span><span class="row-val">HOPE通知Bot</span></div>
+        <div class="row"><span class="app-icon xs gray" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/><path d="M12 22V12"/><path d="m3.3 7 8.7 5 8.7-5"/></svg></span><span class="row-name">Docker</span><span class="row-val">HOPE通知Bot</span></div>
+        <div class="row"><span class="app-icon xs gray" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg></span><span class="row-name">Cloudflare Workers・Cloud Run</span><span class="row-val">LearnCode</span></div>
+        <div class="row"><span class="app-icon xs gray" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg></span><span class="row-name">AWS</span><span class="row-val">学習中</span></div>
+      </div>
+
+      <p class="group-label rv">アプリ・チーム開発</p>
+      <div class="group rv">
+        <div class="row"><span class="app-icon xs purple" aria-hidden="true"><svg viewBox="0 0 24 24"><rect width="14" height="20" x="5" y="2" rx="2"/><path d="M12 18h.01"/></svg></span><span class="row-name">Flutter</span><span class="row-val">SHABET</span></div>
+        <div class="row"><span class="app-icon xs orange" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><span class="row-name">スクラム（PO 兼 SM）</span><span class="row-val">SHABET</span></div>
+        <div class="row"><span class="app-icon xs orange" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg></span><span class="row-name">コードレビュー</span><span class="row-val">SHABET・Dotto</span></div>
+        <div class="row"><span class="app-icon xs orange" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/></svg></span><span class="row-name">Git / GitHub</span><span class="row-val">日常的に使用</span></div>
+      </div>
+
+      <p class="foot-note rv">書いたことのある言語：Go、C、Python、Java、TypeScript、Dart</p>
+    </div>
   </section>
+</div>
+
+<!-- ================= 経歴 ================= -->
+<div class="tab" id="tab-history" data-tab="history" hidden>
+  <section class="band gray page">
+    <div class="narrow">
+      <h1 class="h-page rv">経歴</h1>
+      <p class="page-lead rv" style="--d:.08s">これまでの取り組みと受賞です。</p>
+      <div class="group rv" style="--d:.16s">
+        <div class="hrow"><span class="date">2024年4月</span><div><p class="h-title">学内アプリ Dotto の開発に参加</p><p class="h-sub">Go によるバックエンド開発を学ぶ</p></div></div>
+        <div class="hrow"><span class="date">2024年</span><div><p class="h-title"><svg class="mini-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>P2HACKS 2024 KDDI Agile Development Center 賞</p><p class="h-sub">Dotto のメンバー5人で「Callaco」を開発。<a href="https://p2hacks2024.github.io/" target="_blank" rel="noopener">公式サイト</a></p></div></div>
+        <div class="hrow"><span class="date">2026年</span><div><p class="h-title">SHABET のリーダーに</p><p class="h-sub">ミライケータイプロジェクトで12人のチームをまとめる</p></div></div>
+        <div class="hrow"><span class="date">2026年10月</span><div><p class="h-title">HOPE 課題締切通知Bot をサーバーで常時稼働</p><p class="h-sub">個人開発。Claude（AI）を用いて開発</p></div></div>
+        <div class="hrow"><span class="date">2026年11月</span><div><p class="h-title">FUNavi を立ち上げ</p><p class="h-sub">生協食堂の混雑緩和をテーマに、来年度の高度ICT演習へ</p></div></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ================= 連絡先 ================= -->
+<div class="tab" id="tab-contact" data-tab="contact" hidden>
+  <section class="band gray page">
+    <div class="narrow">
+      <h1 class="h-page rv">連絡先</h1>
+      <p class="page-lead rv" style="--d:.08s">メールでご連絡ください。</p>
+      <div class="group rv" style="--d:.16s">
+        <div class="row wrap">
+          <span class="app-icon xs blue" aria-hidden="true"><svg viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></span>
+          <a class="row-name plain" href="mailto:b1024162@fun.ac.jp">b1024162@fun.ac.jp</a>
+          <button class="copy" id="copyMail" type="button">コピー</button>
+        </div>
+        <a class="row plain" href="https://github.com/KurenNagata" target="_blank" rel="noopener">
+          <span class="app-icon xs black" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg></span>
+          <span class="row-name">github.com/KurenNagata</span>
+          <svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+        </a>
+        <div class="row">
+          <span class="app-icon xs green" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg></span>
+          <span class="row-name">公立はこだて未来大学 システム情報科学部 情報アーキテクチャ学科 高度ICTコース</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
 
 </main>
 
-<div class="band-night">
-  <!-- ===== 連絡先 ===== -->
-  <section class="sec wrap" id="contact">
-    <h2>連絡先</h2>
-    <div class="mail-row">
-      <a class="mail" href="mailto:b1024162@fun.ac.jp">b1024162@fun.ac.jp</a>
-      <button class="btn ghost copy" id="copyMail" type="button" data-mail="b1024162@fun.ac.jp">アドレスをコピー</button>
-    </div>
-    <dl class="kv big">
-      <div><dt>GitHub</dt><dd><a href="https://github.com/KurenNagata" target="_blank" rel="noopener">github.com/KurenNagata</a></dd></div>
-      <div><dt>所属</dt><dd><a href="https://www.fun.ac.jp/" target="_blank" rel="noopener">公立はこだて未来大学</a> システム情報科学部 情報アーキテクチャ学科 高度ICTコース</dd></div>
-    </dl>
-  </section>
-
-  <footer class="site-foot wrap">
-    <p>&copy; 2026 永田 來煉</p>
-  </footer>
-</div>
+<footer class="foot"><div class="foot-in">&copy; 2026 永田 來煉</div></footer>
 
 <script src="script.js"></script>
 </body>
