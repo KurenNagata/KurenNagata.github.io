@@ -22,7 +22,7 @@ window.__sky=window.__sky||{rev:0,goal:0};
     var n=0;
     (function chk(){
       if(id!==run)return;
-      if(!window.__sky||window.__sky.rev>=1||n++>80){addHint();return;}
+      if(!window.__sky||window.__sky.rev>=1||n++>80){unlock();addHint();return;}
       setTimeout(chk,100);
     })();
   }
@@ -36,10 +36,11 @@ window.__sky=window.__sky||{rev:0,goal:0};
     h.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}});
     intro.appendChild(h);
   }
+  function unlock(){nav.removeAttribute('inert'); root.classList.remove('playing');}
   function finish(jump){
-    run++; seen(); if(window.__sky)window.__sky.goal=1; skipBtn.hidden=true; nav.removeAttribute('inert'); clearHint();
-    root.classList.remove('playing');
-    if(jump)window.scrollTo(0,intro.offsetHeight); else whenLit(run);
+    run++; seen(); if(window.__sky)window.__sky.goal=1; skipBtn.hidden=true; clearHint();
+    /* Skip のときはすぐ本体へ。通常は、星と灯りがすべて点いたら、矢印・スクロール・ナビを同時に使えるようにする */
+    if(jump){unlock(); window.scrollTo(0,intro.offsetHeight);} else whenLit(run);
   }
   async function play(alive){
     var win=el('win','<div class="tb"><i></i><i></i><i></i><span>kuren — -zsh — 80×24</span></div>');
