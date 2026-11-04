@@ -1,0 +1,12 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "kuren-portfolio",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "."
+  },
+  "routes": [
+    { "pattern": "kuren.dev", "custom_domain": true },
+    { "pattern": "www.kuren.dev", "custom_domain": true }
+  ]
+}

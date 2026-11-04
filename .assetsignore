@@ -1,0 +1,13 @@
+.git
+.github
+.claude
+.vscode
+.gitignore
+.assetsignore
+CLAUDE.md
+image.jpg
+memo.txt
+old
+node_modules
+wrangler.jsonc
+.wrangler
