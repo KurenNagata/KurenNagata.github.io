@@ -238,8 +238,8 @@ window.__sky=window.__sky||{rev:0,goal:0};
     ctx.globalAlpha=1;
     for(i=0;i<hb.lamps.length;i++){var Lp=hb.lamps[i], lv=vis(Lp.th); if(lv<=0)continue; glow(Lp.x,hb.qy-H*.034,12,'255,222,150',.7*lv); ctx.fillStyle='rgba(255,244,214,'+lv+')'; ctx.fillRect(Lp.x-1.5,hb.qy-H*.034-1.5,3,3);}
     for(i=0;i<hb.boats.length;i++){var B2=hb.boats[i], bv=vis(B2.th); if(bv<=0)continue; var bby=H*.865; ctx.fillStyle='rgba(255,236,170,'+bv+')'; ctx.fillRect(B2.x+B2.w*.45-1.5,bby-B2.m-3,3,3); ctx.fillStyle='rgba(120,255,160,'+(.8*bv)+')'; ctx.fillRect(B2.x+B2.w-2,bby,2,2);}
-    var lvh=vis(.3); if(lvh>0){glow(hb.wx1,hb.wy-hb.lh-2,22,'255,70,60',.85*lvh*bl); ctx.fillStyle='rgba(255,120,110,'+(lvh*bl)+')'; ctx.fillRect(hb.wx1-2,hb.wy-hb.lh-4,4,3);}
-    var cv2=vis(.4); if(cv2>0){ctx.fillStyle='rgba(255,70,60,'+(cv2*bl)+')'; ctx.fillRect(cr.x-1.5,hb.qy-cr.h-5,3,3);}
+    var lvh=vis(.3); if(lvh>0){glow(hb.wx1,hb.wy-hb.lh-2,14,'255,226,160',.6*lvh); ctx.fillStyle='rgba(255,246,220,'+lvh+')'; ctx.fillRect(hb.wx1-2,hb.wy-hb.lh-4,4,3);}
+    var cv2=vis(.4); if(cv2>0){ctx.fillStyle='rgba(255,236,190,'+(cv2*.9)+')'; ctx.fillRect(cr.x-1.5,hb.qy-cr.h-5,3,3);}
     /* 山頂のライト: ターミナルが終わったあと点く */
     var on=clamp((sky.rev-.5)/.5);
     if(on>0){
@@ -250,7 +250,7 @@ window.__sky=window.__sky||{rev:0,goal:0};
       ctx.fillStyle=gl; ctx.fillRect(peak[0]-R,peak[1]-R,R*2,R*2);
       ctx.fillStyle='rgba(255,246,220,'+a+')'; ctx.fillRect(peak[0]-2,peak[1]-1.5,4,3);
       ctx.fillStyle='rgba(255,236,190,'+(.8*a)+')'; ctx.fillRect(peak[0]+7,peak[1]+2,1.8,1.8); ctx.fillRect(peak[0]-9,peak[1]+3,1.8,1.8);
-      ctx.fillStyle='rgba(255,80,70,'+on+')'; ctx.fillRect(peak[0]+2,peak[1]-8,2,2);
+      ctx.fillStyle='rgba(255,246,220,'+on+')'; ctx.fillRect(peak[0]+2,peak[1]-8,2,2);
     }
   }
   function visible(){return intro.offsetHeight>0&&!document.hidden;}
