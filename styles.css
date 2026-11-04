@@ -49,7 +49,7 @@ ul{padding-left:1.2em}
 
 /* ヒーロー */
 .hero{text-align:center;padding:104px 22px 80px}
-.hero h1{margin-top:8px;font-size:clamp(52px,9vw,88px);font-weight:700;line-height:1.05;letter-spacing:-.01em}
+.hero h1{margin-top:8px;font-size:clamp(40px,5vw,56px);font-weight:600;line-height:1.1;letter-spacing:-.01em}
 .hero-lead{margin:20px auto 0;max-width:30em;font-size:clamp(19px,2.4vw,24px);font-weight:600;line-height:1.45}
 .hero-cta{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:16px 32px;margin-top:36px}
 
