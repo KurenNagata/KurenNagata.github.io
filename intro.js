@@ -3,7 +3,7 @@
   var root=document.documentElement, intro=document.getElementById('intro');
   if(!intro||!root.classList.contains('playing'))return;
   var nav=document.querySelector('.gnav');
-  function fit(){intro.style.height=Math.max(431,window.innerHeight-nav.offsetHeight)+'px';}
+  function fit(){root.style.setProperty('--nav',nav.offsetHeight+'px');}
   fit(); window.addEventListener('resize',fit);
   nav.setAttribute('inert','');
   var scene=document.getElementById('scene'), skipBtn=document.getElementById('skip'), run=0;

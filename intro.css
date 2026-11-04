@@ -1,5 +1,5 @@
 /* オープニング(黒い画面に macOS のターミナル風)。終わるとスクロールで本体が現れる */
-.intro{display:none;position:relative;height:calc(100vh - 49px);height:calc(100svh - 49px);min-height:431px;background:#000;color:#F2F2F2}
+.intro{display:none;position:relative;height:calc(100vh - var(--nav,49px));height:calc(100svh - var(--nav,49px));height:calc(100dvh - var(--nav,49px));min-height:431px;background:#000;color:#F2F2F2}
 html.js:not(.noi) .intro{display:block}
 html.playing main,html.playing .foot{display:none}
 /* 流れている間もナビは一番上に白で出し、押せないようにする */
