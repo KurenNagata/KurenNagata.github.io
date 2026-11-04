@@ -56,7 +56,7 @@
     var id=++run;
     scene.innerHTML=''; clearHint();
     skipBtn.hidden=false; nav.setAttribute('inert','');
-    root.classList.remove('noi','gone'); root.classList.add('playing');
+    root.classList.remove('noi'); root.classList.add('playing');
     fit(); window.scrollTo(0,0);
     function go(){play(function(){return id===run;}).then(function(ok){if(ok)finish(false);});}
     if(document.visibilityState==='hidden'){document.addEventListener('visibilitychange',function o(){if(document.visibilityState==='visible'){document.removeEventListener('visibilitychange',o);go();}});}
@@ -64,15 +64,6 @@
   }
   skipBtn.addEventListener('click',function(){finish(true);});
 
-  /* オープニングの下端が画面の上(ナビの下)まで来たら、それより上には戻れないようにする。
-     下へのスクロール中は位置をいじらない(勢いのあるスクロールを妨げない) */
-  window.addEventListener('scroll',function(){
-    var c=root.classList;
-    if(c.contains('playing')||c.contains('noi'))return;
-    var h=intro.offsetHeight;
-    if(window.scrollY>=h-1){c.add('gone');}
-    else if(c.contains('gone')){window.scrollTo(0,h);}
-  },{passive:true});
 
   /* 「永田 來煉」を押したらトップに戻ってオープニングをもう一度流す(「動きを減らす」設定のときは戻るだけ) */
   var brand=document.querySelector('.gnav .brand');
