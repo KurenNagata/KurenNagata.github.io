@@ -29,26 +29,24 @@
     var win=el('win','<div class="tb"><i></i><i></i><i></i><span>kuren — -zsh — 80×24</span></div>');
     var t=el('t'); win.appendChild(t); scene.appendChild(win);
     var p=el('','<span class="pr">kuren@mac</span> <span class="dim">~</span> % <span id="cmd"></span><span class="caret"></span>'); t.appendChild(p);
-    /* 最後の行まで先に並べて(見えない状態で)場所を確保し、順に見せる。枠の大きさは変わらない */
-    var logs=['プロフィールを読み込み','制作物を読み込み','リンクを確認'];
-    var rows=logs.map(function(l){return el('r hid','<span><span class="dim">[build]</span> '+l+'</span><span class="pr">ok</span>');});
-    var blank=el('hid','&nbsp;');
-    var aff=el('hid','<span class="dim">&gt;</span> 公立はこだて未来大学 3年');
-    var nm=el('oname hid','永田 來煉');
-    var ex=el('hid','<span class="dim">exit status 0</span>');
-    rows.concat([blank,aff,nm,ex]).forEach(function(e){t.appendChild(e);});
-    function show(e){e.classList.remove('hid');e.classList.add('fi');}
+    /* 枠の大きさは固定。ログが次々に出て、画面からあふれた分は上へ流れていき、最後に名前が出る */
+    var logs=['プロフィールを読み込み','制作物を読み込み','リンクを確認','経歴を読み込み','技術一覧を読み込み','画像を最適化','フォントを読み込み','スタイルを適用','ナビを生成','タブを登録','ページを構築','表示を確認','キャッシュを更新','公開の準備'];
+    function add(e){t.appendChild(e);t.scrollTop=t.scrollHeight;return e;}
     await sleep(500); if(!alive())return false;
     if(!await typeInto(p.querySelector('#cmd'),'go run main.go',70,alive))return false;
     await sleep(350); if(!alive())return false;
     p.querySelector('.caret').remove();
-    for(var i=0;i<rows.length;i++){ show(rows[i]); await sleep(420); if(!alive())return false; }
-    await sleep(200); if(!alive())return false;
-    show(aff);
+    for(var i=0;i<logs.length;i++){
+      add(el('r','<span><span class="dim">[build]</span> '+logs[i]+'</span><span class="pr">ok</span>'));
+      await sleep(i<3?220:110); if(!alive())return false;
+    }
     await sleep(350); if(!alive())return false;
-    show(nm);
+    add(el('','&nbsp;')); 
+    add(el('fi','<span class="dim">&gt;</span> 公立はこだて未来大学 3年'));
+    await sleep(350); if(!alive())return false;
+    add(el('oname fi','永田 來煉'));
     await sleep(500); if(!alive())return false;
-    show(ex);
+    add(el('fi','<span class="dim">exit status 0</span>'));
     await sleep(700);
     return alive();
   }
