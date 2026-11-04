@@ -3,7 +3,7 @@
 html.js:not(.noi) .intro{display:block}
 html.playing main,html.playing .foot{display:none}
 /* 流れている間もナビは一番上に白で出し、押せないようにする */
-html.js:not(.noi) .gnav{background:rgba(10,22,52,.92);-webkit-backdrop-filter:saturate(160%) blur(20px);backdrop-filter:saturate(160%) blur(20px);border-bottom:1px solid rgba(255,255,255,.1)}
+html.js:not(.noi) .gnav{background:#0A1634;-webkit-backdrop-filter:none;backdrop-filter:none;border-bottom:1px solid rgba(255,255,255,.1)}
 html.js:not(.noi) .gnav .brand{color:#F5F5F7}
 html.js:not(.noi) .gnav nav a{color:rgba(245,245,247,.7)}
 html.js:not(.noi) .gnav nav a:hover{color:#fff}
