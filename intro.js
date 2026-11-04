@@ -64,11 +64,14 @@
   }
   skipBtn.addEventListener('click',function(){finish(true);});
 
-  /* オープニングの下端が画面の上(ナビの下)まで来たら、オープニングを取り除いて本体の先頭に固定する。見た目は変わらず、上には戻れない */
+  /* オープニングの下端が画面の上(ナビの下)まで来たら、それより上には戻れないようにする。
+     下へのスクロール中は位置をいじらない(勢いのあるスクロールを妨げない) */
   window.addEventListener('scroll',function(){
     var c=root.classList;
-    if(c.contains('playing')||c.contains('noi')||c.contains('gone'))return;
-    if(window.scrollY>=intro.offsetHeight-1){c.add('gone');window.scrollTo(0,0);}
+    if(c.contains('playing')||c.contains('noi'))return;
+    var h=intro.offsetHeight;
+    if(window.scrollY>=h-1){c.add('gone');}
+    else if(c.contains('gone')){window.scrollTo(0,h);}
   },{passive:true});
 
   /* 「永田 來煉」を押したらトップに戻ってオープニングをもう一度流す(「動きを減らす」設定のときは戻るだけ) */
