@@ -46,3 +46,5 @@ html.playing{overflow:hidden}
 /* 文字が増えても枠の大きさが変わらないよう、最後の行まで場所を確保しておく */
 .hid{visibility:hidden}
 
+
+.lg{white-space:nowrap;overflow:hidden;color:#C7C7CC}
