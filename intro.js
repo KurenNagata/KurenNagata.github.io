@@ -17,10 +17,20 @@ window.__sky=window.__sky||{rev:0,goal:0};
   async function typeInto(n,t,ms,alive){for(var i=0;i<t.length;i++){if(!alive())return false;n.textContent+=t[i];await sleep(ms);}return true;}
   function seen(){try{sessionStorage.setItem('introSeen','1');}catch(e){}}
   function clearHint(){var h=intro.querySelector('.hint');if(h)h.remove();}
+  /* 「下にスクロール」の案内: 画面の下の中央。押すと本体へ滑らかに移動する */
+  function addHint(){
+    clearHint();
+    var h=el('hint','<span>下にスクロール</span><b>⌄</b>');
+    h.setAttribute('role','button'); h.tabIndex=0;
+    function go(){window.scrollTo({top:intro.offsetHeight,behavior:reduce?'auto':'smooth'});}
+    h.addEventListener('click',go);
+    h.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}});
+    intro.appendChild(h);
+  }
   function finish(jump){
     run++; seen(); if(window.__sky)window.__sky.goal=1; skipBtn.hidden=true; nav.removeAttribute('inert'); clearHint();
     root.classList.remove('playing');
-    if(jump)window.scrollTo(0,intro.offsetHeight);
+    if(jump)window.scrollTo(0,intro.offsetHeight); else addHint();
   }
   async function play(alive){
     var win=el('win','<div class="tb"><i></i><i></i><i></i><span>kuren — -zsh — 80×24</span></div>');
@@ -58,6 +68,7 @@ window.__sky=window.__sky||{rev:0,goal:0};
     t.appendChild(el('','<span class="dim">exit status 0</span>'));
     requestAnimationFrame(function(){t.scrollTop=t.scrollHeight;});
     if(window.__sky){window.__sky.rev=1;window.__sky.goal=1;}
+    addHint();
   }
   function start(){
     var id=++run; if(window.__sky){window.__sky.rev=0;window.__sky.goal=0;}
