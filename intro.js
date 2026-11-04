@@ -103,6 +103,7 @@ window.__sky=window.__sky||{rev:0,goal:0};
   var ctx=cv.getContext&&cv.getContext('2d'); if(!ctx)return;
   var reduce=false; try{reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;}catch(e){}
   var W=0,H=0,hz=0,stars=[],refl=[],mt=[],peak=[0,0],raf=0,t0=performance.now(),last=0,built='';
+  var harb={};
   function rnd(a,b){return a+Math.random()*(b-a);}
   function clamp(x){return Math.max(0,Math.min(1,x));}
   function sm(x){x=clamp(x);return x*x*(3-2*x);}
@@ -114,17 +115,36 @@ window.__sky=window.__sky||{rev:0,goal:0};
     hz=H*0.70;
     stars=[]; var n=Math.round(W/9);
     for(var i=0;i<n;i++){
-      stars.push({x:rnd(0,W),y:Math.pow(Math.random(),1.3)*hz*0.95,r:rnd(.5,1.5),ph:rnd(0,6.28),sp:rnd(.6,2),f:Math.random()<.1,th:Math.random()});
+      stars.push({x:rnd(0,W),y:Math.pow(Math.random(),1.3)*hz*0.95,r:rnd(.5,1.5),ph:rnd(0,6.28),sp:rnd(.6,2),f:Math.random()<.18,th:Math.random()});
     }
     refl=stars.filter(function(s){return s.r>1.05;}).slice(0,26).map(function(s){return {s:s,x:s.x,len:rnd(14,46),ph:s.ph,sp:s.sp};});
     /* 函館山: 画面の右側に置く(ターミナルに重ならない位置) */
-    var mx0=W*(W<700?0.8:0.79), mx1=W*1.12, mh=Math.min(H*0.24,150); mt=[]; peak=[0,hz];
-    for(var j=0;j<=70;j++){
-      var u=j/70, x=mx0+(mx1-mx0)*u;
-      var h=0.95*Math.exp(-Math.pow((u-0.30)/0.2,2))+0.38*Math.exp(-Math.pow((u-0.68)/0.22,2))+0.10*(1-u);
-      h*=sm(u/0.1); h=Math.max(0,h+0.015*Math.sin(u*38));
+    /* 函館山(臥牛山): 街側(左)はゆるやかに上がり、頂上(御殿山)のあと千畳敷のような台地が続き、右の海側は断崖で落ちる */
+    var mx0=W*(W<700?0.76:0.75), mx1=W*(W<700?1.0:0.99), mh=Math.min(H*0.185,138); mt=[]; peak=[0,hz];
+    for(var j=0;j<=140;j++){
+      var u=j/140, x=mx0+(mx1-mx0)*u, h;
+      if(u<=0.40)h=0.95*Math.pow(sm(u/0.40),1.15)+0.035*Math.exp(-Math.pow((u-0.2)/0.05,2));
+      else if(u<=0.52)h=0.95-0.29*sm((u-0.40)/0.12);
+      else if(u<=0.80)h=0.66-0.10*(u-0.52)/0.28;
+      else if(u<=0.955)h=0.56*(1-sm((u-0.80)/0.155));
+      else h=0;
+      h+=0.012*Math.sin(u*47)+0.008*Math.sin(u*121+.6); h=Math.max(0,h)*(u>0.945?Math.max(0,1-(u-0.945)/0.05):1)*sm(u/0.03);
       var y=hz+2-mh*h; mt.push([x,y]); if(y<peak[1])peak=[x,y];
     }
+    /* 手前の港: 防波堤と灯台、停泊する船、岸壁、倉庫、クレーン、街灯 */
+    var qy=H*0.90, qx1=W*(W<700?0.64:0.46), wy=H*0.785;
+    harb={qy:qy,qx1:qx1,wy:wy,wh:H*0.014,wx1:W*(W<700?0.62:0.50),lh:H*0.048,
+      boats:[],wins:[],lamps:[],crane:{x:W*0.275,h:H*0.125},
+      wh_:[{x:0,w:W*0.105,h:H*0.055},{x:W*0.115,w:W*0.075,h:H*0.04}]};
+    var bx=[.215,.335,.42];
+    for(var bi=0;bi<bx.length;bi++){harb.boats.push({x:W*bx[bi]*(W<700?1.1:1),w:rnd(36,56),m:rnd(30,46),sail:Math.random()<.4,ph:rnd(0,6.28),th:rnd(.2,.6)});}
+    harb.wh_.forEach(function(r){
+      /* 倉庫の窓は1列だけ、数も少なめ(マンションに見えないように) */
+      for(var wx=r.x+8;wx<r.x+r.w-16;wx+=22){
+        if(Math.random()<.5)harb.wins.push({x:wx,y:qy-r.h*.55,th:rnd(.1,.75),ph:rnd(0,6.28)});
+      }
+    });
+    [.03,.16,.304,.396].forEach(function(f,i){harb.lamps.push({x:W*f,th:.1+i*.07});});
     return true;
   }
   function draw(now){
@@ -140,9 +160,10 @@ window.__sky=window.__sky||{rev:0,goal:0};
     /* 星: まばらに、少しずつ現れる */
     for(i=0;i<stars.length;i++){
       s=stars[i]; var v=vis(s.th); if(v<=0)continue;
-      var tw=reduce?.8:(.35+.65*Math.max(0,Math.sin(t*s.sp+s.ph)));
+      var tw=reduce?.8:(.2+.8*Math.max(0,Math.sin(t*s.sp*1.25+s.ph)));
       ctx.globalAlpha=tw*v; ctx.fillStyle='#E6EEF8'; ctx.fillRect(s.x,s.y,s.r,s.r);
-      if(s.f&&tw>.85&&v>.9){ctx.globalAlpha=(tw-.85)*3;ctx.fillRect(s.x-3,s.y+s.r/2-.3,s.r+6,.6);ctx.fillRect(s.x+s.r/2-.3,s.y-3,.6,s.r+6);}
+      if(s.f&&tw>.7&&v>.9){var fk=(tw-.7)/.3; ctx.globalAlpha=fk*.9; ctx.fillRect(s.x-5*fk,s.y+s.r/2-.35,s.r+10*fk,.7);ctx.fillRect(s.x+s.r/2-.35,s.y-5*fk,.7,s.r+10*fk);
+        ctx.globalAlpha=fk*.25; ctx.beginPath(); ctx.arc(s.x+s.r/2,s.y+s.r/2,3+2*fk,0,6.29); ctx.fill();}
     }
     ctx.globalAlpha=1;
     /* 海 */
@@ -160,24 +181,76 @@ window.__sky=window.__sky||{rev:0,goal:0};
       }
     }
     ctx.globalAlpha=1;
+    /* 海に映る函館山: 逆さに、うすく、ゆらゆらと */
+    if(!window.__noReflect){
+      var mtop=hz+2-peak[1], refH=mtop*0.85;
+      for(var dd=0;dd<refH;dd+=2){
+        var thr=dd/0.85, i1=-1, i2=-1;
+        for(i=0;i<mt.length;i++){ if(hz+2-mt[i][1]>=thr){ if(i1<0)i1=i; i2=i; } }
+        if(i1<0)break;
+        var sway=reduce?0:Math.sin(t*1.1+dd*.22)*(0.8+dd*.045);
+        var ra=.5*(1-dd/refH)*(reduce?1:(.72+.28*Math.sin(t*1.6+dd*.5)));
+        ctx.fillStyle='rgba(2,8,18,'+Math.max(0,ra)+')';
+        ctx.fillRect(mt[i1][0]+sway,hz+3+dd,mt[i2][0]-mt[i1][0],2);
+      }
+    }
     /* 函館山 */
     ctx.beginPath(); ctx.moveTo(mt[0][0],hz+8);
     for(i=0;i<mt.length;i++)ctx.lineTo(mt[i][0],mt[i][1]);
     ctx.lineTo(mt[mt.length-1][0],hz+8); ctx.closePath();
-    ctx.fillStyle='#030914'; ctx.fill();
-    ctx.strokeStyle='rgba(150,175,205,.16)'; ctx.lineWidth=1; ctx.stroke();
+    var mg=ctx.createLinearGradient(0,peak[1],0,hz+8);
+    mg.addColorStop(0,'#0A1730'); mg.addColorStop(.45,'#050E1F'); mg.addColorStop(1,'#02070F');
+    ctx.fillStyle=mg; ctx.fill();
+    ctx.strokeStyle='rgba(150,180,220,.30)'; ctx.lineWidth=1.2; ctx.beginPath(); ctx.moveTo(mt[0][0],mt[0][1]);
+    for(i=1;i<mt.length;i++)ctx.lineTo(mt[i][0],mt[i][1]);
+    ctx.stroke();
+    if(!window.__noReflect){
+      var onr=clamp((sky.rev-.5)/.5);
+      if(onr>0){for(var rr=0;rr<46;rr+=4){
+        var rs=reduce?0:Math.sin(t*1.5+rr*.4)*2;
+        ctx.globalAlpha=.22*onr*(1-rr/46); ctx.fillStyle='#FFE2A8';
+        ctx.fillRect(peak[0]-1+rs*.6+0,hz+4+(hz+2-peak[1])*.85*0+rr+(hz+2-peak[1])*.0,2.2+Math.abs(rs)*.3,1.4);
+      }ctx.globalAlpha=1;}
+    }
+    /* 手前の港 */
+    var D='#030A14', hb=harb, bl=reduce?1:(Math.sin(t*2.6)>.5?1:.2);
+    ctx.fillStyle=D;
+    ctx.fillRect(0,hb.wy,hb.wx1,hb.wh);                       /* 防波堤 */
+    ctx.beginPath(); ctx.moveTo(hb.wx1-4,hb.wy); ctx.lineTo(hb.wx1-2.5,hb.wy-hb.lh); ctx.lineTo(hb.wx1+2.5,hb.wy-hb.lh); ctx.lineTo(hb.wx1+4,hb.wy); ctx.closePath(); ctx.fill();
+    ctx.fillRect(hb.wx1-4.5,hb.wy-hb.lh-4,9,4);                /* 灯台 */
+    for(i=0;i<hb.boats.length;i++){                            /* 停泊する船 */
+      var B=hb.boats[i], by=H*0.865;
+      ctx.fillStyle=D; ctx.beginPath(); ctx.moveTo(B.x,by); ctx.lineTo(B.x+B.w,by); ctx.lineTo(B.x+B.w-6,by+7); ctx.lineTo(B.x+6,by+7); ctx.closePath(); ctx.fill(); ctx.strokeStyle='rgba(160,190,220,.3)'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(B.x,by); ctx.lineTo(B.x+B.w,by); ctx.stroke();
+      if(B.sail){ctx.beginPath(); ctx.moveTo(B.x+B.w*.45,by-B.m); ctx.lineTo(B.x+B.w*.45,by-2); ctx.lineTo(B.x+B.w*.9,by-2); ctx.closePath(); ctx.fill();}
+      else ctx.fillRect(B.x+B.w*.5,by-10,12,10);
+      ctx.fillRect(B.x+B.w*.45-.8,by-B.m,1.6,B.m);
+    }
+    ctx.beginPath(); ctx.moveTo(0,hb.qy); ctx.lineTo(hb.qx1,hb.qy); ctx.lineTo(hb.qx1+W*.05,H); ctx.lineTo(0,H); ctx.closePath(); ctx.fill();   /* 岸壁 */
+    for(i=0;i<hb.wh_.length;i++){var R2=hb.wh_[i]; ctx.fillRect(R2.x,hb.qy-R2.h,R2.w,R2.h);}                                               /* 倉庫 */
+    ctx.strokeStyle=D; ctx.lineWidth=4; ctx.beginPath();       /* クレーン */
+    var cr=hb.crane; ctx.moveTo(cr.x,hb.qy); ctx.lineTo(cr.x,hb.qy-cr.h); ctx.moveTo(cr.x-cr.h*.22,hb.qy-cr.h); ctx.lineTo(cr.x+cr.h*.6,hb.qy-cr.h);
+    ctx.moveTo(cr.x+cr.h*.6,hb.qy-cr.h); ctx.lineTo(cr.x+cr.h*.6,hb.qy-cr.h+cr.h*.22); ctx.stroke();
+    for(i=0;i<hb.lamps.length;i++){ctx.fillRect(hb.lamps[i].x-.8,hb.qy-H*.034,1.6,H*.034);}                                                  /* 街灯の柱 */
+    ctx.strokeStyle='rgba(160,190,220,.18)'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(0,hb.qy); ctx.lineTo(hb.qx1,hb.qy); ctx.stroke();
+    /* 港の灯り: ターミナルが終わったあと点く */
+    function glow(x,y,rad,c,al){var g2=ctx.createRadialGradient(x,y,0,x,y,rad);g2.addColorStop(0,'rgba('+c+','+al+')');g2.addColorStop(1,'rgba('+c+',0)');ctx.fillStyle=g2;ctx.fillRect(x-rad,y-rad,rad*2,rad*2);}
+    for(i=0;i<hb.wins.length;i++){var Wn=hb.wins[i], wv=vis(Wn.th); if(wv<=0)continue; ctx.globalAlpha=wv*(reduce?.9:(.75+.25*Math.sin(t*.9+Wn.ph))); ctx.fillStyle='#FFD27A'; ctx.fillRect(Wn.x,Wn.y,9,3);}
+    ctx.globalAlpha=1;
+    for(i=0;i<hb.lamps.length;i++){var Lp=hb.lamps[i], lv=vis(Lp.th); if(lv<=0)continue; glow(Lp.x,hb.qy-H*.034,12,'255,222,150',.7*lv); ctx.fillStyle='rgba(255,244,214,'+lv+')'; ctx.fillRect(Lp.x-1.5,hb.qy-H*.034-1.5,3,3);}
+    for(i=0;i<hb.boats.length;i++){var B2=hb.boats[i], bv=vis(B2.th); if(bv<=0)continue; var bby=H*.865; ctx.fillStyle='rgba(255,236,170,'+bv+')'; ctx.fillRect(B2.x+B2.w*.45-1.5,bby-B2.m-3,3,3); ctx.fillStyle='rgba(120,255,160,'+(.8*bv)+')'; ctx.fillRect(B2.x+B2.w-2,bby,2,2);}
+    var lvh=vis(.3); if(lvh>0){glow(hb.wx1,hb.wy-hb.lh-2,22,'255,70,60',.85*lvh*bl); ctx.fillStyle='rgba(255,120,110,'+(lvh*bl)+')'; ctx.fillRect(hb.wx1-2,hb.wy-hb.lh-4,4,3);}
+    var cv2=vis(.4); if(cv2>0){ctx.fillStyle='rgba(255,70,60,'+(cv2*bl)+')'; ctx.fillRect(cr.x-1.5,hb.qy-cr.h-5,3,3);}
     /* 山頂のライト: ターミナルが終わったあと点く */
     var on=clamp((sky.rev-.5)/.5);
     if(on>0){
-      var fl=reduce?1:(.9+.1*Math.sin(t*2.1)+.04*Math.sin(t*7.3)), a=on*fl;
-      var R=Math.max(40,Math.min(64,W*0.05));
+      var a=on;
+      var R=Math.max(32,Math.min(50,W*0.04));
       var gl=ctx.createRadialGradient(peak[0],peak[1],0,peak[0],peak[1],R);
-      gl.addColorStop(0,'rgba(255,238,190,'+(.8*a)+')'); gl.addColorStop(.35,'rgba(255,214,130,'+(.35*a)+')'); gl.addColorStop(1,'rgba(255,214,130,0)');
+      gl.addColorStop(0,'rgba(255,238,190,'+(.75*a)+')'); gl.addColorStop(.3,'rgba(255,214,130,'+(.3*a)+')'); gl.addColorStop(1,'rgba(255,214,130,0)');
       ctx.fillStyle=gl; ctx.fillRect(peak[0]-R,peak[1]-R,R*2,R*2);
       ctx.fillStyle='rgba(255,246,220,'+a+')'; ctx.fillRect(peak[0]-2,peak[1]-1.5,4,3);
       ctx.fillStyle='rgba(255,236,190,'+(.8*a)+')'; ctx.fillRect(peak[0]+7,peak[1]+2,1.8,1.8); ctx.fillRect(peak[0]-9,peak[1]+3,1.8,1.8);
-      var blink=reduce?1:(Math.sin(t*2.6)>.6?1:.15);
-      ctx.fillStyle='rgba(255,80,70,'+(on*blink)+')'; ctx.fillRect(peak[0]+2,peak[1]-8,2,2);
+      ctx.fillStyle='rgba(255,80,70,'+on+')'; ctx.fillRect(peak[0]+2,peak[1]-8,2,2);
     }
   }
   function visible(){return intro.offsetHeight>0&&!document.hidden;}
