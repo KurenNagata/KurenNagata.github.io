@@ -1,18 +1,22 @@
-/* オープニング: ターミナルで go run main.go を実行して名前を出す。終わったら下にスクロールして本体へ */
+/* オープニング: ターミナルで go run main.go を実行して名前を出す。終わったら下にスクロールして本体へ。
+   左上の「永田 來煉」を押すと、トップに戻ってもう一度流れる */
 (function(){
   var root=document.documentElement, intro=document.getElementById('intro');
-  if(!intro||!root.classList.contains('playing'))return;
-  var nav=document.querySelector('.gnav');
+  if(!intro)return;
+  var nav=document.querySelector('.gnav'), scene=document.getElementById('scene'), skipBtn=document.getElementById('skip'), run=0;
+  var reduce=false; try{reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;}catch(e){}
   function fit(){root.style.setProperty('--nav',nav.offsetHeight+'px');}
-  fit(); window.addEventListener('resize',fit);
-  nav.setAttribute('inert','');
-  var scene=document.getElementById('scene'), skipBtn=document.getElementById('skip'), run=0;
+  fit(); window.addEventListener('resize',fit); window.addEventListener('load',fit);
+  if(window.ResizeObserver)new ResizeObserver(fit).observe(nav);
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);
+
   function sleep(ms){return new Promise(function(r){setTimeout(r,ms);});}
   function el(c,h){var e=document.createElement('div');if(c)e.className=c;e.innerHTML=h||'';return e;}
   async function typeInto(n,t,ms,alive){for(var i=0;i<t.length;i++){if(!alive())return false;n.textContent+=t[i];await sleep(ms);}return true;}
   function seen(){try{sessionStorage.setItem('introSeen','1');}catch(e){}}
+  function clearHint(){var h=intro.querySelector('.hint');if(h)h.remove();}
   function finish(jump){
-    run++; seen(); skipBtn.hidden=true; nav.removeAttribute('inert');
+    run++; seen(); skipBtn.hidden=true; nav.removeAttribute('inert'); clearHint();
     root.classList.remove('playing');
     if(jump){window.scrollTo(0,intro.offsetHeight);return;}
     var h=el('hint','<span>下にスクロール</span><b aria-hidden="true">↓</b>'); h.tabIndex=0; h.setAttribute('role','button');
@@ -43,10 +47,28 @@
     await sleep(700);
     return alive();
   }
+  function start(){
+    var id=++run;
+    scene.innerHTML=''; clearHint();
+    skipBtn.hidden=false; nav.setAttribute('inert','');
+    root.classList.remove('noi'); root.classList.add('playing');
+    fit(); window.scrollTo(0,0);
+    function go(){play(function(){return id===run;}).then(function(ok){if(ok)finish(false);});}
+    if(document.visibilityState==='hidden'){document.addEventListener('visibilitychange',function o(){if(document.visibilityState==='visible'){document.removeEventListener('visibilitychange',o);go();}});}
+    else go();
+  }
   skipBtn.addEventListener('click',function(){finish(true);});
-  window.scrollTo(0,0);
-  var id=++run;
-  function go(){play(function(){return id===run;}).then(function(ok){if(ok)finish(false);});}
-  if(document.visibilityState==='hidden'){document.addEventListener('visibilitychange',function o(){if(document.visibilityState==='visible'){document.removeEventListener('visibilitychange',o);go();}});}
-  else go();
+
+  /* 「永田 來煉」を押したらトップに戻ってオープニングをもう一度流す(「動きを減らす」設定のときは戻るだけ) */
+  var brand=document.querySelector('.gnav .brand');
+  if(brand)brand.addEventListener('click',function(ev){
+    if(reduce)return;
+    ev.preventDefault();
+    window.__introReplay=true;
+    start();
+    if(location.hash==='#home'||location.hash===''){window.__introReplay=false;if(location.hash==='')history.replaceState(null,'','#home');}
+    else location.hash='#home';
+  });
+
+  if(root.classList.contains('playing'))start();
 })();

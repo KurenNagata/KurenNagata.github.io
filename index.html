@@ -21,7 +21,7 @@ var h=location.hash.slice(1).split('/')[0],seen=false,rm=false;
 try{seen=sessionStorage.getItem('introSeen')==='1';}catch(e){}
 try{rm=matchMedia('(prefers-reduced-motion: reduce)').matches;}catch(e){}
 if((h===''||h==='home')&&!seen&&!rm)d.classList.add('playing');else d.classList.add('noi');
-addEventListener('hashchange',function(){d.classList.add('noi');});})();
+addEventListener('hashchange',function(){if(window.__introReplay){window.__introReplay=false;return;}d.classList.add('noi');});})();
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
