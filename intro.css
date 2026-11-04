@@ -45,3 +45,7 @@ html.playing{overflow:hidden}
 }
 /* 文字が増えても枠の大きさが変わらないよう、最後の行まで場所を確保しておく */
 .hid{visibility:hidden}
+
+/* 画面の上までスクロールして過ぎたオープニングは取り除き、上に戻れないようにする */
+html.js.gone:not(.noi) .intro{display:none}
+html.gone body{overflow-anchor:none}
