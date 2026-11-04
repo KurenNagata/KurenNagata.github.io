@@ -3,9 +3,13 @@
 html.js:not(.noi) .intro{display:block}
 html.playing main,html.playing .foot{display:none}
 /* 流れている間もナビは一番上に白で出し、押せないようにする */
-html.js:not(.noi) .gnav{background:#fff;-webkit-backdrop-filter:none;backdrop-filter:none}
+html.js:not(.noi) .gnav{background:rgba(10,22,52,.92);-webkit-backdrop-filter:saturate(160%) blur(20px);backdrop-filter:saturate(160%) blur(20px);border-bottom:1px solid rgba(255,255,255,.1)}
+html.js:not(.noi) .gnav .brand{color:#F5F5F7}
+html.js:not(.noi) .gnav nav a{color:rgba(245,245,247,.7)}
+html.js:not(.noi) .gnav nav a:hover{color:#fff}
+html.js:not(.noi) .gnav nav a[aria-current="page"]{color:#fff}
 html.playing .gnav{pointer-events:none;user-select:none}
-html.playing body{background:#000}
+html.js:not(.noi) body{background:#000}
 .sr{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 .intro .skip{position:absolute;top:calc(16px + env(safe-area-inset-top,0px));right:max(18px,env(safe-area-inset-right,0px));z-index:2;font:500 13px/1 var(--font);color:#EBEBF5;background:rgba(255,255,255,.12);border:0;border-radius:980px;padding:9px 16px;cursor:pointer}
 .intro .skip:hover{background:rgba(255,255,255,.2)}
