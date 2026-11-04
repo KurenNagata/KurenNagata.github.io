@@ -17,6 +17,15 @@ window.__sky=window.__sky||{rev:0,goal:0};
   async function typeInto(n,t,ms,alive){for(var i=0;i<t.length;i++){if(!alive())return false;n.textContent+=t[i];await sleep(ms);}return true;}
   function seen(){try{sessionStorage.setItem('introSeen','1');}catch(e){}}
   function clearHint(){var h=intro.querySelector('.hint');if(h)h.remove();}
+  /* 星と灯りがすべて点いてから案内を出す(途中で別の再生が始まったら出さない) */
+  function whenLit(id){
+    var n=0;
+    (function chk(){
+      if(id!==run)return;
+      if(!window.__sky||window.__sky.rev>=1||n++>80){addHint();return;}
+      setTimeout(chk,100);
+    })();
+  }
   /* 「下にスクロール」の案内: 画面の下の中央。押すと本体へ滑らかに移動する */
   function addHint(){
     clearHint();
@@ -30,7 +39,7 @@ window.__sky=window.__sky||{rev:0,goal:0};
   function finish(jump){
     run++; seen(); if(window.__sky)window.__sky.goal=1; skipBtn.hidden=true; nav.removeAttribute('inert'); clearHint();
     root.classList.remove('playing');
-    if(jump)window.scrollTo(0,intro.offsetHeight); else addHint();
+    if(jump)window.scrollTo(0,intro.offsetHeight); else whenLit(run);
   }
   async function play(alive){
     var win=el('win','<div class="tb"><i></i><i></i><i></i><span>kuren — -zsh — 80×24</span></div>');
