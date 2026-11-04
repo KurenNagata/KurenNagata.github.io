@@ -1,7 +1,10 @@
 /* オープニング(黒い画面に macOS のターミナル風)。終わるとスクロールで本体が現れる */
-.intro{display:none;position:relative;height:100vh;height:100svh;min-height:480px;background:#000;color:#F2F2F2}
+.intro{display:none;position:relative;height:calc(100vh - 49px);height:calc(100svh - 49px);min-height:431px;background:#000;color:#F2F2F2}
 html.js:not(.noi) .intro{display:block}
-html.playing .gnav,html.playing main,html.playing .foot{display:none}
+html.playing main,html.playing .foot{display:none}
+/* 流れている間もナビは一番上に白で出し、押せないようにする */
+html.js:not(.noi) .gnav{background:#fff;-webkit-backdrop-filter:none;backdrop-filter:none}
+html.playing .gnav{pointer-events:none;user-select:none}
 html.playing body{background:#000}
 .sr{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 .intro .skip{position:absolute;top:calc(16px + env(safe-area-inset-top,0px));right:max(18px,env(safe-area-inset-right,0px));z-index:2;font:500 13px/1 var(--font);color:#EBEBF5;background:rgba(255,255,255,.12);border:0;border-radius:980px;padding:9px 16px;cursor:pointer}

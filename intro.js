@@ -2,13 +2,17 @@
 (function(){
   var root=document.documentElement, intro=document.getElementById('intro');
   if(!intro||!root.classList.contains('playing'))return;
+  var nav=document.querySelector('.gnav');
+  function fit(){intro.style.height=Math.max(431,window.innerHeight-nav.offsetHeight)+'px';}
+  fit(); window.addEventListener('resize',fit);
+  nav.setAttribute('inert','');
   var scene=document.getElementById('scene'), skipBtn=document.getElementById('skip'), run=0;
   function sleep(ms){return new Promise(function(r){setTimeout(r,ms);});}
   function el(c,h){var e=document.createElement('div');if(c)e.className=c;e.innerHTML=h||'';return e;}
   async function typeInto(n,t,ms,alive){for(var i=0;i<t.length;i++){if(!alive())return false;n.textContent+=t[i];await sleep(ms);}return true;}
   function seen(){try{sessionStorage.setItem('introSeen','1');}catch(e){}}
   function finish(jump){
-    run++; seen(); skipBtn.hidden=true;
+    run++; seen(); skipBtn.hidden=true; nav.removeAttribute('inert');
     root.classList.remove('playing');
     if(jump){window.scrollTo(0,intro.offsetHeight);return;}
     var h=el('hint','<span>下にスクロール</span><b aria-hidden="true">↓</b>'); h.tabIndex=0; h.setAttribute('role','button');
