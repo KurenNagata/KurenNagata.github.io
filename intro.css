@@ -33,3 +33,15 @@ html.js:not(.noi) body{background:#000}
 .hint b{font-size:20px;font-weight:400;animation:nudge 1.6s ease-in-out infinite}
 @keyframes nudge{50%{transform:translateY(6px)}}
 .hint:focus-visible{outline:2px solid #fff;outline-offset:6px;border-radius:6px}
+
+/* 画面の背景も黒にして、どの端でも白が出ないようにする */
+html.js:not(.noi){background:#000}
+html.playing{overflow:hidden}
+/* ブラウザの上下のバーが出入りしても、黒い画面が画面より短くならないようにする */
+@supports (height:100lvh) and (height:100svh){
+  .intro{height:calc(100lvh - var(--nav,49px));--bar:calc(100lvh - 100svh)}
+  .scene{padding-bottom:calc(72px + var(--bar))}
+  .hint{bottom:calc(28px + var(--bar) + env(safe-area-inset-bottom,0px))}
+}
+/* 文字が増えても枠の大きさが変わらないよう、最後の行まで場所を確保しておく */
+.hid{visibility:hidden}

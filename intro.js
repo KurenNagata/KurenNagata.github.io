@@ -29,21 +29,26 @@
     var win=el('win','<div class="tb"><i></i><i></i><i></i><span>kuren — -zsh — 80×24</span></div>');
     var t=el('t'); win.appendChild(t); scene.appendChild(win);
     var p=el('','<span class="pr">kuren@mac</span> <span class="dim">~</span> % <span id="cmd"></span><span class="caret"></span>'); t.appendChild(p);
+    /* 最後の行まで先に並べて(見えない状態で)場所を確保し、順に見せる。枠の大きさは変わらない */
+    var logs=['プロフィールを読み込み','制作物を読み込み','リンクを確認'];
+    var rows=logs.map(function(l){return el('r hid','<span><span class="dim">[build]</span> '+l+'</span><span class="pr">ok</span>');});
+    var blank=el('hid','&nbsp;');
+    var aff=el('hid','<span class="dim">&gt;</span> 公立はこだて未来大学 3年');
+    var nm=el('oname hid','永田 來煉');
+    var ex=el('hid','<span class="dim">exit status 0</span>');
+    rows.concat([blank,aff,nm,ex]).forEach(function(e){t.appendChild(e);});
+    function show(e){e.classList.remove('hid');e.classList.add('fi');}
     await sleep(500); if(!alive())return false;
     if(!await typeInto(p.querySelector('#cmd'),'go run main.go',70,alive))return false;
     await sleep(350); if(!alive())return false;
     p.querySelector('.caret').remove();
-    var logs=['プロフィールを読み込み','制作物を読み込み','リンクを確認'];
-    for(var i=0;i<logs.length;i++){
-      t.appendChild(el('r fi','<span><span class="dim">[build]</span> '+logs[i]+'</span><span class="pr">ok</span>'));
-      await sleep(420); if(!alive())return false;
-    }
-    t.appendChild(el('','&nbsp;')); await sleep(200);
-    t.appendChild(el('fi','<span class="dim">&gt;</span> 公立はこだて未来大学 3年'));
+    for(var i=0;i<rows.length;i++){ show(rows[i]); await sleep(420); if(!alive())return false; }
+    await sleep(200); if(!alive())return false;
+    show(aff);
     await sleep(350); if(!alive())return false;
-    t.appendChild(el('oname fi','永田 來煉'));
+    show(nm);
     await sleep(500); if(!alive())return false;
-    t.appendChild(el('fi','<span class="dim">exit status 0</span>'));
+    show(ex);
     await sleep(700);
     return alive();
   }
