@@ -1,7 +1,7 @@
 const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const tabs = [...document.querySelectorAll(".tab")];
 const navLinks = [...document.querySelectorAll(".gnav nav a")];
-const titles = { home: "永田 來煉 | ポートフォリオ", works: "制作物 | 永田 來煉", skills: "技術 | 永田 來煉", history: "経歴 | 永田 來煉", contact: "連絡先 | 永田 來煉" };
+const titles = { home: "永田來煉 | ポートフォリオ", works: "制作物 | 永田來煉", skills: "技術 | 永田來煉", history: "経歴 | 永田來煉", contact: "連絡先 | 永田來煉" };
 
 /* スクロールしたときの登場 */
 let io = null;
