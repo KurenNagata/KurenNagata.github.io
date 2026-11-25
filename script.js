@@ -43,7 +43,7 @@ const copyBtn = document.getElementById("copyMail");
 if (copyBtn) {
   copyBtn.addEventListener("click", async () => {
     try {
-      await navigator.clipboard.writeText("b1024162@fun.ac.jp");
+      await navigator.clipboard.writeText("devkuren@gmail.com");
       copyBtn.textContent = "コピーしました";
     } catch (e) {
       copyBtn.textContent = "コピーできませんでした";
